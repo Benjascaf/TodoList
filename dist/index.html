@@ -4,37 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo List</title>
+    <script
+      src="https://kit.fontawesome.com/b7a68370f5.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="../src/style.css" />
   </head>
   <body>
     <div class="left-container">
-      <h1>My projects</h1>
-      <ul class="projects-list">
-        <li class="project">
-          projrct-name
-          <ul class="project">
-            <li>task</li>
-            <li>task</li>
-            <li>task</li>
-          </ul>
-        </li>
-        <li class="project">
-          projrct-name
-          <ul class="project">
-            <li>task</li>
-            <li>task</li>
-            <li>task</li>
-          </ul>
-        </li>
-        <li class="project">
-          projrct-name
-          <ul class="project">
-            <li>task</li>
-            <li>task</li>
-            <li>task</li>
-          </ul>
-        </li>
-      </ul>
+      <div class="today header">
+        <i class="fa-solid fa-rocket"></i>
+        <h1>Today</h1>
+      </div>
+      <div class="project">
+        <div class="projects header">
+          <i class="fa-solid fa-rocket"></i>
+          <h1>My Projects</h1>
+        </div>
+        <ul class="projects-list">
+          <li class="project">
+            <h2>projrct-name</h2>
+            <!-- <ul>
+              <li>task</li>
+              <li>task</li>
+              <li>task</li>
+            </ul> -->
+          </li>
+          <li class="project">
+            <h2>project-name</h2>
+            <!-- <ul>
+              <li>task</li>
+              <li>task</li>
+              <li>task</li>
+            </ul>
+          </li> -->
+          </li>
+          <li class="project">
+            <h2>projrct-name</h2>
+            <!-- <ul>
+              <li>task</li>
+              <li>task</li>
+              <li>task</li>
+            </ul> -->
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-container">
+      <div class="" data-day="24">
+        <ul class="todo-container">
+          <li class="todo">
+            <h4>Clean the house</h4>
+            <p class="date">11/10/2004</p>
+            <p class="description">Or else who will?</p>
+            <p class="notes">What I need is in the kitchen</p>
+          </li>
+          <li class="todo">Clean the house</li>
+          <li class="todo">Clean the house</li>
+        </ul>
+      </div>
     </div>
   </body>
 </html>
