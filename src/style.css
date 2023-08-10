@@ -131,6 +131,7 @@ table {
 }
 body {
   min-height: 100vh;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: 1fr;
@@ -182,11 +183,63 @@ Not sure If i want to include todos in the left menu
   padding: 40px;
 }
 
-.todo-container {
+.project-title {
+  font-size: 2.4rem;
+  font-weight: bold;
+}
+
+.sections-container {
+  padding-left: 20px;
+}
+
+.todos-container {
+  padding-left: 20px;
   display: grid;
   gap: 20px;
+  font-size: 1.2rem;
+}
+.extended {
 }
 .todo {
   background-color: var(--left-background-color);
-  padding: 15px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-btn {
+  border-radius: 5px;
+  justify-self: center;
+  align-self: center;
+  outline: none;
+  border: 1px solid blue;
+  padding: 8px;
+  margin-left: 20px;
+}
+
+.todo-btn:hover {
+  background-color: blue;
+  opacity: 0.3;
+}
+
+.todo-content {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.extended .todo-description,
+.extended .todo-notes {
+  display: block;
+}
+
+.todo-date {
+}
+
+.todo-description,
+.todo-notes {
+  display: none;
 }
