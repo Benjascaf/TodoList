@@ -227,6 +227,10 @@ Not sure If i want to include todos in the left menu
   margin-left: 20px;
 }
 
+.todo-btn:hover {
+  cursor: pointer;
+}
+
 .todo-btn[data-priority="1"] {
   border: 1px solid var(--priority-1-color);
 }
@@ -239,7 +243,7 @@ Not sure If i want to include todos in the left menu
   border: 1px solid var(--priority-3-color);
 }
 .todo-btn[data-priority="0"] {
-  border: 1px solid var(--left-background-color);
+  border: 1px solid gray;
 }
 
 .todo-btn[data-priority="1"]:hover {
@@ -254,6 +258,11 @@ Not sure If i want to include todos in the left menu
 
 .todo-btn[data-priority="3"]:hover {
   background-color: var(--priority-3-color);
+  opacity: 0.8;
+}
+
+.todo-btn[data-priority="0"]:hover {
+  background-color: gray;
   opacity: 0.8;
 }
 
