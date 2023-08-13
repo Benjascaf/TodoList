@@ -128,6 +128,7 @@ table {
   --priority-1-color: #d1453b;
   --priority-2-color: #eb8909;
   --priority-3-color: #246fe0;
+  --todo-hover-background-color: #edeaea;
 }
 body {
   min-height: 100vh;
@@ -137,6 +138,7 @@ body {
   grid-template-rows: 1fr;
   line-height: 1.15;
   font-size: 1.4rem;
+  font-family: "Roboto", sans-serif;
 }
 .left-container {
   height: 100%;
@@ -206,7 +208,6 @@ Not sure If i want to include todos in the left menu
 .todos-container {
   padding-left: 20px;
   display: grid;
-  gap: 20px;
   font-size: 1.2rem;
 }
 .extended {
@@ -214,8 +215,14 @@ Not sure If i want to include todos in the left menu
 .todo {
   display: flex;
   gap: 20px;
+  padding-top: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgb(229, 225, 225);
+}
+
+.todo:hover {
+  background-color: var(--todo-hover-background-color);
+  cursor: pointer;
 }
 
 .todo-btn {
@@ -281,13 +288,22 @@ Not sure If i want to include todos in the left menu
 .todo-date {
   font-style: italic;
   font-size: 1rem;
-  background-color: var(--left-background-color);
+  padding: 5px;
+  border-radius: 10px;
+  background-color: var(--todo-hover-background-color);
 }
 
 .add-todo {
+  padding-top: 10px;
+  padding-bottom: 10px;
   display: flex;
   gap: 20px;
-  margin-left: 20px;
+  padding-left: 20px;
+}
+
+.add-todo:hover {
+  background-color: var(--todo-hover-background-color);
+  cursor: pointer;
 }
 
 .add-todo i {
@@ -296,5 +312,19 @@ Not sure If i want to include todos in the left menu
 
 .todo-description,
 .todo-notes {
+  display: none;
+}
+
+.add-task-form {
+  border: 1px solid black;
+}
+input {
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+label {
   display: none;
 }

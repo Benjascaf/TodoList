@@ -9,6 +9,12 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="../src/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,700;0,900;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="left-container">
@@ -118,9 +124,43 @@
                 <p class="todo-notes">What I need is in the kitchen</p>
               </div>
             </li>
-            <li class="add-todo">
-              <p>Add todo</p>
-            </li>
+            <form class="add-task-form">
+              <div class="task-name-container">
+                <label for="task-name">Task Name:</label>
+                <input type="text" placeholder="Task Name" id="task-name" />
+              </div>
+              <div class="task-description-container">
+                <label for="task-description">Task description:</label>
+                <input
+                  type="text"
+                  id="task-description"
+                  placeholder="Task description"
+                />
+              </div>
+              <div class="task-date-container">
+                <label for="task-date">Due Date:</label>
+                <input type="date" id="task-date" />
+              </div>
+              <div class="task-priority-container">
+                <select name="priority">
+                  <option value="1">Priority 1</option>
+                  <option value="2">Priority 2</option>
+                  <option value="3">Priority 3</option>
+                  <option value="4">Priority 4</option>
+                </select>
+              </div>
+              <div class="project-selector-container">
+                <select name="project" id="">
+                  <option value="">My project</option>
+                  <option value="">My project</option>
+                  <option value="">My project</option>
+                </select>
+              </div>
+              <div class="buttons-container">
+                <button type="button">Cancel</button>
+                <button>Add task</button>
+              </div>
+            </form>
           </ul>
         </div>
       </div>
