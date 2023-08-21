@@ -316,10 +316,52 @@ Not sure If i want to include todos in the left menu
 }
 
 .add-task-form {
+  justify-self: start;
   border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.form-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid rgb(213, 209, 209);
+}
+
+.task-description-container {
+  grid-row: 2;
+}
+
+.form-bottom {
+  display: grid;
+  padding: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.form-bottom .buttons-container {
+  display: flex;
+  gap: 15px;
+}
+
+.buttons-container button {
+  font-size: 1.2rem;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  padding: 5px 10px;
 }
 input {
   border: none;
+  font-size: 1.2rem;
+}
+
+select {
+  font-size: 1.2rem;
 }
 
 input:focus {
@@ -327,4 +369,39 @@ input:focus {
 }
 label {
   display: none;
+}
+
+.edit-task {
+  display: grid;
+  border: 1px solid black;
+  background-color: var(--left-background-color);
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto;
+  border-radius: 5px;
+  padding: 20px;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  margin: 5% 20%;
+}
+.edit-task button {
+  font-size: inherit;
+  border-radius: 10px;
+  padding: 5px;
+  border: none;
+}
+
+.edit-task input {
+  border: none;
+}
+.edit-left-container,
+.edit-right-container {
+  display: grid;
+  gap: 10px;
+}
+
+.form-btns-container {
+  grid-column: 1 /3;
+  justify-self: end;
 }
