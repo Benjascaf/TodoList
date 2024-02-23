@@ -1,3 +1,4 @@
+import { isToday } from "date-fns";
 export default function Todo(title, description, dueDate, priority) {
   this.title = title;
   this.description = description;
@@ -23,6 +24,7 @@ export default function Todo(title, description, dueDate, priority) {
   const getDescription = () => this.description;
   const getDueDate = () => this.dueDate;
   const getPriority = () => this.priority;
+  const isDueToday = () => isToday(this.dueDate);
   return {
     setTitle,
     setDescription,
@@ -32,5 +34,6 @@ export default function Todo(title, description, dueDate, priority) {
     getDescription,
     getPriority,
     getDueDate,
+    isDueToday,
   };
 }
