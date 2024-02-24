@@ -1,30 +1,28 @@
 import { isToday } from "date-fns";
 export default function Todo(title, description, dueDate, priority) {
-  this.title = title;
-  this.description = description;
-  this.dueDate = dueDate;
-  this.priority = priority;
+  const _title = title;
+  const _description = description;
+  const _dueDate = dueDate;
+  const _priority = priority;
   const setTitle = (newTitle) => {
-    this.title = newTitle;
+    _title = newTitle;
   };
   const setDescription = (newDescription) => {
-    this.description = newDescription;
+    _description = newDescription;
   };
 
   const setDueDate = (newDate) => {
-    this.dueDate = newDate;
+    _dueDate = newDate;
   };
   const setPriority = (newPriorityLevel) => {
-    this.priority = newPriorityLevel;
+    _priority = newPriorityLevel;
   };
 
-  const getTitle = () => {
-    this.title;
-  };
-  const getDescription = () => this.description;
-  const getDueDate = () => this.dueDate;
-  const getPriority = () => this.priority;
-  const isDueToday = () => isToday(this.dueDate);
+  const getTitle = () => _title;
+  const getDescription = () => _description;
+  const getDueDate = () => _dueDate;
+  const getPriority = () => _priority;
+  const isDueToday = () => isToday(_dueDate);
   return {
     setTitle,
     setDescription,

@@ -1,7 +1,9 @@
-import Todo from "todo.js";
-export default function Project() {
+import Todo from "./todo.js";
+export default function Project(name) {
+  const _name = name;
+  const getProjectName = () => _name;
   const tasksContainers = {
-    projectTasks: [],
+    default: [],
   }; //An object literal to use as a dict and store tasks directly in
   //the project or in one of the subsections
 
@@ -38,11 +40,15 @@ export default function Project() {
     }
   };
 
+  const getSubsections = () => Object.keys(tasksContainers);
+
   return {
     addSubsection,
     addTaskToSubsection,
     getSubsectionTasks,
     removeTaskFromSubsection,
     getTasksDueToday,
+    getProjectName,
+    getSubsections,
   };
 }

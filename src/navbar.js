@@ -1,42 +1,51 @@
 export default function (projects) {
   const leftContainer = document.querySelector(".left-container");
   addTodaySection(leftContainer);
-  addProjectsSection(leftContainer);
-  const projectsContainer = document.querySelector(".projects-list");
-  for (const project in projects) {
-    const myProject = document.createElement("li");
-    myProject.classList.add(project.getName());
-    projectsContainer.append(myProject);
-  }
+  addProjectsSection(leftContainer, projects);
 }
 
 function addTodaySection(parent) {
+  const todayHeader = createHeaderForSection("today", "Today");
+  parent.append(todayHeader);
+}
+
+function addProjectsSection(parent, projects) {
   const container = document.createElement("div");
-  container.classList.add("today-section", "header");
-
-  const icon = document.createElement("i");
-  icon.classList.add("fa-solid", "fa-rocket");
-
-  const todayHeader = document.createElement("h1");
-  todayHeader.textContent = "Today";
-
-  container.append(icon, todayHeader);
+  container.classList.add("projects-container");
+  const headerContainer = createHeaderForSection("projects", "My Projects");
+  const projectsList = document.createElement("ul");
+  projectsList.classList.add("projects-list");
+  addProjects(projects, projectsList);
+  appendProjectButton(projectsList);
+  container.append(headerContainer, projectsList);
   parent.append(container);
 }
 
-function addProjectsSection(parent) {
-  const container = document.createElement("div");
-  container.classList.add("projects", "header");
-
+function createHeaderForSection(section, headerTitle) {
   const icon = document.createElement("i");
   icon.classList.add("fa-solid", "fa-rocket");
-
+  const headerContainer = document.createElement("div");
   const projectsHeader = document.createElement("h1");
-  projectsHeader.textContent = "My Projects";
+  headerContainer.classList.add(section, "header");
+  projectsHeader.textContent = headerTitle;
+  headerContainer.append(icon, projectsHeader);
+  return headerContainer;
+}
 
-  const projectsList = document.createElement("ul");
-  projectsList.classList.add("projects-list");
+function addProjects(projects, parent) {
+  for (const project of projects) {
+    const myProject = document.createElement("li");
+    myProject.classList.add("project");
+    const header = document.createElement("h2");
+    header.textContent = project.getProjectName();
+    myProject.append(header);
+    parent.append(myProject);
+  }
+}
 
-  container.append(icon, projectsHeader, projectsList);
-  parent.append(container);
+function appendProjectButton(parent) {
+  const projectButton = document.createElement("button");
+  projectButton.classList.add("project-btn");
+  projectButton.textContent = "New Project";
+  parent.appendChild(projectButton);
 }
