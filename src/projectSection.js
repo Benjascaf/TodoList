@@ -1,4 +1,5 @@
 export default function renderProjectSection(mainContainer, project) {
+  mainContainer.innerHTML = "";
   addProjectHeader(mainContainer, project.getProjectName());
   for (const subsection of project.getSubsections()) {
     addSection(
@@ -8,7 +9,7 @@ export default function renderProjectSection(mainContainer, project) {
     );
   }
 }
-
+export { addSection, appendTasks };
 const addProjectHeader = (parent, projectName) => {
   const header = document.createElement("h1");
   header.classList.add("project-title");

@@ -169,6 +169,18 @@ body {
   display: grid;
   gap: 10px;
 }
+.today :hover {
+  cursor: pointer;
+  background-color: var(--todo-hover-background-color);
+}
+.project :hover {
+  cursor: pointer;
+  background-color: var(--todo-hover-background-color);
+}
+
+button :hover {
+  cursor: pointer;
+}
 
 /* .projects-list {
   padding-left: 20px;

@@ -1,3 +1,4 @@
+import renderProjectForm from "./projectForm";
 export default function (projects) {
   const leftContainer = document.querySelector(".left-container");
   addTodaySection(leftContainer);
@@ -36,6 +37,7 @@ function addProjects(projects, parent) {
   for (const project of projects) {
     const myProject = document.createElement("li");
     myProject.classList.add("project");
+    myProject.dataset.projectName = project.getProjectName();
     const header = document.createElement("h2");
     header.textContent = project.getProjectName();
     myProject.append(header);
@@ -47,5 +49,8 @@ function appendProjectButton(parent) {
   const projectButton = document.createElement("button");
   projectButton.classList.add("project-btn");
   projectButton.textContent = "New Project";
+  projectButton.addEventListener("click", () =>
+    renderProjectForm().displayForm()
+  );
   parent.appendChild(projectButton);
 }
