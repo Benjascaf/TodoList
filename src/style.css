@@ -129,6 +129,8 @@ table {
   --priority-2-color: #eb8909;
   --priority-3-color: #246fe0;
   --todo-hover-background-color: #edeaea;
+  --checked-btn-color: #76f7bf;
+  --checked-btn-border-color: #499167;
 }
 body {
   min-height: 100vh;
@@ -265,6 +267,12 @@ Not sure If i want to include todos in the left menu
   border: 1px solid gray;
 }
 
+.todo-btn.checked {
+  background-color: var(--checked-btn-color) !important;
+  border-color: var(--checked-btn-border-color);
+  content: "✓";
+}
+
 .todo-btn[data-priority="1"]:hover {
   background-color: var(--priority-1-color);
   opacity: 0.8;
@@ -278,10 +286,12 @@ Not sure If i want to include todos in the left menu
 .todo-btn[data-priority="3"]:hover {
   background-color: var(--priority-3-color);
   opacity: 0.8;
+  content: "✓";
 }
 
 .todo-btn[data-priority="0"]:hover {
   background-color: gray;
+  content: "✓";
   opacity: 0.8;
 }
 
@@ -305,6 +315,9 @@ Not sure If i want to include todos in the left menu
   background-color: var(--todo-hover-background-color);
 }
 
+.fa-trash {
+  color: rgb(182, 2, 2);
+}
 .add-todo {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -383,19 +396,23 @@ label {
   display: none;
 }
 
-.edit-task {
+/* dialog {
+   border: none; 
+  max-width: 100vw;
+  max-height: 100vh;
+  height: 40%;
+  width: 50%;
+  display: flex;
+  border-radius: 5px;
+} */
+/* .edit-task {
+  height: 100%;
+  width: 100%;
   display: grid;
   border: 1px solid black;
   background-color: var(--left-background-color);
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr auto;
-  border-radius: 5px;
-  padding: 20px;
-  position: fixed;
-  z-index: 100;
-  left: 0;
-  right: 0;
-  margin: 5% 20%;
 }
 .edit-task button {
   font-size: inherit;
@@ -416,4 +433,4 @@ label {
 .form-btns-container {
   grid-column: 1 /3;
   justify-self: end;
-}
+} */

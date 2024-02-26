@@ -1,12 +1,23 @@
 import renderProjectForm from "./projectForm";
-export default function (projects) {
+import storedProjects from "./storedProjects";
+import renderProjectSection from "./projectSection";
+import renderTodaySection from "./todaySection";
+export default function renderNavbar(projects) {
   const leftContainer = document.querySelector(".left-container");
+  leftContainer.innerHTML = "";
   addTodaySection(leftContainer);
   addProjectsSection(leftContainer, projects);
 }
 
 function addTodaySection(parent) {
+  const mainContainer = document.querySelector(".main-container");
   const todayHeader = createHeaderForSection("today", "Today");
+  todayHeader.addEventListener("click", () =>
+    renderTodaySection(
+      mainContainer,
+      project.getSubsectionTasks("My subsection")
+    )
+  );
   parent.append(todayHeader);
 }
 
@@ -34,8 +45,15 @@ function createHeaderForSection(section, headerTitle) {
 }
 
 function addProjects(projects, parent) {
+  const mainContainer = document.querySelector(".main-container");
   for (const project of projects) {
     const myProject = document.createElement("li");
+    myProject.addEventListener("click", () => {
+      renderProjectSection(
+        mainContainer,
+        storedProjects.getProject(project.getProjectName())
+      );
+    });
     myProject.classList.add("project");
     myProject.dataset.projectName = project.getProjectName();
     const header = document.createElement("h2");

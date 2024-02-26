@@ -1,7 +1,6 @@
 export default (() => {
   const _projects = {};
   const addProject = (project) => {
-    console.log("adding");
     const projectName = project.getProjectName();
     if (projectName in Object.keys(_projects)) {
       alert("Two different projects can't have the same name!");
