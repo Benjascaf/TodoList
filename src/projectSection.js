@@ -1,3 +1,5 @@
+import storedProjects from "./storedProjects";
+
 export default function renderProjectSection(mainContainer, project) {
   mainContainer.innerHTML = "";
   addProjectHeader(mainContainer, project.getProjectName());
@@ -17,11 +19,12 @@ const addProjectHeader = (parent, projectName) => {
   parent.append(header);
 };
 const addSection = (section, parent, tasks) => {
+  console.log(tasks);
   const sectionContainer = document.createElement("div");
   sectionContainer.classList.add("section");
   addSectionHeader(section, sectionContainer);
   appendTasks(sectionContainer, tasks);
-  appendAddButton(sectionContainer);
+  appendAddButton(sectionContainer, section);
   parent.appendChild(sectionContainer);
 };
 
@@ -92,7 +95,7 @@ const appendTask = (parent, task) => {
   parent.append(taskContainer);
 };
 
-const appendAddButton = (parent) => {
+const appendAddButton = (parent, section) => {
   const buttonContainer = document.createElement("li");
   buttonContainer.classList.add("add-todo");
 
@@ -102,7 +105,7 @@ const appendAddButton = (parent) => {
   const text = document.createElement("p");
   text.textContent = "Add todo";
 
-  const addTaskForm = getAddTaskForm(buttonContainer);
+  const addTaskForm = getAddTaskForm(buttonContainer, section);
 
   buttonContainer.addEventListener("click", () =>
     buttonContainer.replaceWith(addTaskForm)
@@ -112,7 +115,7 @@ const appendAddButton = (parent) => {
   parent.append(buttonContainer);
 };
 
-const getAddTaskForm = (addTaskButton) => {
+const getAddTaskForm = (addTaskButton, section) => {
   const addTaskForm = document.createElement("form");
   addTaskForm.classList.add("add-task-form");
   addTaskForm.autocomplete = "off";
@@ -140,7 +143,7 @@ const getAddTaskForm = (addTaskButton) => {
     <input type="date" id="task-date" required />
   </div>
   <div class="task-priority-container">
-    <select name="priority" required>
+    <select name="priority" id="task-priority" required>
       <option value="1">Priority 1</option>
       <option value="2">Priority 2</option>
       <option value="3">Priority 3</option>
@@ -149,22 +152,20 @@ const getAddTaskForm = (addTaskButton) => {
   </div>
 </div>
 <div class="form-bottom">
-  <div class="project-selector-container">
-    <select name="project" id="">
-      <option value="">My project</option>
-      <option value="">My project</option>
-      <option value="">My project</option>
-    </select>
-  </div>
+  
   <div class="buttons-container">
     <button type="button" class="cancel-btn">Cancel</button>
-    <button type="button" class="sumbmit-btn">Add task</button>
+    <button type="button" class="submit-btn">Add task</button>
   </div>
 </div>`;
 
   addTaskForm
     .querySelector(".cancel-btn")
     .addEventListener("click", () => addTaskForm.replaceWith(addTaskButton));
+
+  addTaskForm.querySelector(".submit-btn").addEventListener("click", () => {
+    addTaskToProjectSection(addTaskForm, section);
+  });
   return addTaskForm;
 };
 
@@ -189,4 +190,25 @@ const displayEditTaskDialogue = (task) => {
   cancelButton.addEventListener("click", () => dialog.close());
 
   dialog.showModal();
+};
+
+const addTaskToProjectSection = (taskForm, section) => {
+  console.log(section);
+  const taskTitle = taskForm.querySelector("#task-name").value;
+  const taskDescription = taskForm.querySelector("#task-description").value;
+  const taskDate = taskForm.querySelector("#task-date").value;
+  const taskPriority = taskForm.querySelector("#task-priority").value;
+  const currentProject = storedProjects.getProject(
+    document.querySelector(".project-title").textContent
+  );
+  console.log(currentProject);
+  currentProject.addTaskToSubsection(
+    section,
+    taskTitle,
+    taskDescription,
+    taskDate,
+    taskPriority
+  );
+  const mainContainer = document.querySelector(".main-container");
+  renderProjectSection(mainContainer, currentProject);
 };

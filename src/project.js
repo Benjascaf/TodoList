@@ -1,9 +1,10 @@
+import { sub } from "date-fns";
 import Todo from "./todo.js";
 export default function Project(name) {
   const _name = name;
   const getProjectName = () => _name;
   const tasksContainers = {
-    default: [],
+    default: {},
   }; //An object literal to use as a dict and store tasks directly in
   //the project or in one of the subsections
 
@@ -12,12 +13,14 @@ export default function Project(name) {
   };
 
   //will have to remember the task's indexes using data attributes in the DOM
-  const addTaskToSubsection = (subsection, ...newTaskInfo) =>
-    tasksContainers[subsection].push(Todo(...newTaskInfo));
+  const addTaskToSubsection = (subsection, ...newTaskInfo) => {
+    const newTask = Todo(...newTaskInfo);
+    tasksContainers[subsection][newTask.getTitle()] = newTask;
+  };
 
-  const removeTaskFromSubsection = (subsection, taskToRemoveIndex) => {
-    if (containsTask(subsection, taskName)) {
-      delete tasksContainers[subsection][taskToRemoveIndex];
+  const removeTaskFromSubsection = (subsection, taskName) => {
+    if (taskName in tasksContainers) {
+      delete tasksContainers[subsection][taskName];
     } else {
       alert("Attempted to remove task not found in corresponding section");
     }
@@ -28,15 +31,22 @@ export default function Project(name) {
       task.getTitle === taskName;
     });
 
-  const getSubsectionTasks = (subsection) => tasksContainers[subsection];
+  const getSubsectionTasks = (subsection) =>
+    Object.values(tasksContainers[subsection]);
 
-  const getTodaySubsectionTasks = (subsection) =>
-    tasksContainers[subsection].filter((task) => task.isDueToday());
+  const getTodaySubsectionTasks = (subsection) => {
+    const tasksInSectionDueToday = [];
+    for (let task in tasksContainers[subsection]) {
+      if (tasksContainers[subsection][task].isDueToday()) {
+        tasksInSectionDueToday.concat(tasksContainers[subsection][task]);
+      }
+    }
+  };
 
   const getTasksDueToday = () => {
     const tasksDueToday = [];
-    for (let key in tasksContainers) {
-      tasksDueToday.concat(getTodaySubsectionTasks(key));
+    for (let section in tasksContainers) {
+      tasksDueToday.concat(getTodaySubsectionTasks(section));
     }
   };
 
