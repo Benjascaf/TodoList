@@ -136,7 +136,7 @@ body {
   min-height: 100vh;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 2fr 4fr;
   grid-template-rows: 1fr;
   line-height: 1.15;
   font-size: 1.4rem;
@@ -148,53 +148,90 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 30px;
+  padding: 20px;
 }
 
 .left-container h1 {
   font-weight: bold;
-  font-size: 1.6rem;
+  font-size: 2.4rem;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
 }
 .header i {
-  font-size: 1.4rem;
+  font-size: 2.2rem;
 }
 
 .projects-list {
   margin-top: 10px;
-  padding-left: 60px;
+  padding-left: 30%;
   display: grid;
   gap: 10px;
+}
+.today h1 {
+  flex-grow: 1;
 }
 .today :hover {
   cursor: pointer;
   background-color: var(--todo-hover-background-color);
 }
-.project :hover {
+
+.project .trash-container i:hover {
+  cursor: pointer;
+}
+
+.project .trash-container i {
+  font-size: 1.4rem;
+}
+.project h2:hover {
   cursor: pointer;
   background-color: var(--todo-hover-background-color);
 }
 
-button :hover {
+.project h2 {
+  flex-grow: 1;
+}
+.project {
+  font-size: 1.8rem;
+  display: flex;
+  gap: 15px;
+  font-weight: 600;
+}
+
+.project-btn {
+  padding: 0.7rem;
+  border-radius: 15px;
+  font-size: 1.4rem;
+}
+.project-btn:hover {
   cursor: pointer;
+  background-color: var(--todo-hover-background-color);
 }
 
-/* .projects-list {
-  padding-left: 20px;
-}
-Not sure If i want to include todos in the left menu
-
-.projects-list ul {
-  list-style-type: circle;
+.projects-list form {
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
   display: grid;
-  padding-left: 20px;
-} */
+  gap: 10px;
+}
 
+#project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#project-form label {
+  font-weight: bold;
+}
+
+#project-name {
+  border: 1px solid black;
+}
 .main-container {
   padding: 40px;
   display: flex;
@@ -392,9 +429,9 @@ select {
 input:focus {
   outline: none;
 }
-label {
+/* label {
   display: none;
-}
+} */
 
 /* dialog {
    border: none; 

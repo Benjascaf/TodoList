@@ -1,8 +1,25 @@
 import storedProjects from "./storedProjects";
-
+import getAddTaskForm from "./addTaskForm";
+import displaySectionForm from "./sectionForm.js";
+import { format } from "date-fns";
+export { addTaskToProjectSection };
+let _mainContainer;
+let _project;
 export default function renderProjectSection(mainContainer, project) {
+  _mainContainer = mainContainer;
+  _project = project;
   mainContainer.innerHTML = "";
-  addProjectHeader(mainContainer, project.getProjectName());
+  const headerContainer = document.createElement("div");
+  headerContainer.classList.add("project-header-container");
+  addProjectHeader(headerContainer, project.getProjectName());
+  const sectionButton = document.createElement("button");
+  sectionButton.classList.add("section-btn");
+  sectionButton.textContent = "New section";
+  sectionButton.addEventListener("click", () =>
+    displaySectionForm(_mainContainer).displayForm(project.getProjectName())
+  );
+  headerContainer.appendChild(sectionButton);
+  mainContainer.appendChild(headerContainer);
   for (const subsection of project.getSubsections()) {
     addSection(
       subsection,
@@ -19,11 +36,10 @@ const addProjectHeader = (parent, projectName) => {
   parent.append(header);
 };
 const addSection = (section, parent, tasks) => {
-  console.log(tasks);
   const sectionContainer = document.createElement("div");
   sectionContainer.classList.add("section");
   addSectionHeader(section, sectionContainer);
-  appendTasks(sectionContainer, tasks);
+  appendTasks(sectionContainer, tasks, section);
   appendAddButton(sectionContainer, section);
   parent.appendChild(sectionContainer);
 };
@@ -37,27 +53,30 @@ const addSectionHeader = (section, parent) => {
   }
 };
 
-const appendTasks = (parent, tasks) => {
+const appendTasks = (parent, tasks, section) => {
   const tasksContainer = document.createElement("ul");
   tasksContainer.classList.add("todo-container");
   for (const task of tasks) {
-    appendTask(tasksContainer, task);
+    appendTask(tasksContainer, task, section);
   }
   parent.appendChild(tasksContainer);
 };
 
-const appendTask = (parent, task) => {
+const appendTask = (parent, task, section) => {
   const taskContainer = document.createElement("li");
   taskContainer.classList.add("todo");
 
   const taskButton = document.createElement("button");
   taskButton.classList.add("todo-btn");
   taskButton.dataset.priority = task.getPriority();
-  taskButton.addEventListener("click", () =>
-    taskButton.classList.contains("checked")
-      ? taskButton.classList.remove("checked")
-      : taskButton.classList.add("checked")
-  );
+  taskButton.addEventListener("click", () => {
+    storedProjects.removeTaskFromProjectSubsection(
+      _project.getProjectName(),
+      section,
+      task.getTitle()
+    );
+    renderProjectSection(_mainContainer, _project);
+  });
 
   const taskContentContainer = document.createElement("div");
   taskContentContainer.classList.add("todo-content");
@@ -75,6 +94,11 @@ const appendTask = (parent, task) => {
   const taskTrash = document.createElement("i");
   taskTrash.classList.add("fa-solid", "fa-trash");
   taskTrashContainer.appendChild(taskTrash);
+  taskTrashContainer.addEventListener("click", () => {
+    _project.removeTaskFromSubsection(section, task.getTitle());
+    storedProjects.updateLocale();
+    renderProjectSection(_mainContainer, _project);
+  });
 
   const editContainer = document.createElement("div");
   editContainer.classList.add("edit-container");
@@ -115,58 +139,24 @@ const appendAddButton = (parent, section) => {
   parent.append(buttonContainer);
 };
 
-const getAddTaskForm = (addTaskButton, section) => {
-  const addTaskForm = document.createElement("form");
-  addTaskForm.classList.add("add-task-form");
-  addTaskForm.autocomplete = "off";
-  addTaskForm.innerHTML = `<div class="form-top">
-  <div class="task-name-container">
-    <label for="task-name">Task Name:</label>
-    <input
-      type="text"
-      placeholder="Task Name"
-      id="task-name"
-      required
-    />
-  </div>
-  <div class="task-description-container">
-    <label for="task-description">Task description:</label>
-    <input
-      type="text"
-      id="task-description"
-      placeholder="Task description"
-      required
-    />
-  </div>
-  <div class="task-date-container">
-    <label for="task-date">Due Date:</label>
-    <input type="date" id="task-date" required />
-  </div>
-  <div class="task-priority-container">
-    <select name="priority" id="task-priority" required>
-      <option value="1">Priority 1</option>
-      <option value="2">Priority 2</option>
-      <option value="3">Priority 3</option>
-      <option value="4">Priority 4</option>
-    </select>
-  </div>
-</div>
-<div class="form-bottom">
-  
-  <div class="buttons-container">
-    <button type="button" class="cancel-btn">Cancel</button>
-    <button type="button" class="submit-btn">Add task</button>
-  </div>
-</div>`;
-
-  addTaskForm
-    .querySelector(".cancel-btn")
-    .addEventListener("click", () => addTaskForm.replaceWith(addTaskButton));
-
-  addTaskForm.querySelector(".submit-btn").addEventListener("click", () => {
-    addTaskToProjectSection(addTaskForm, section);
-  });
-  return addTaskForm;
+const addTaskToProjectSection = (taskForm, section) => {
+  const taskTitle = taskForm.querySelector("#task-name").value;
+  const taskDescription = taskForm.querySelector("#task-description").value;
+  const taskDate = taskForm.querySelector("#task-date").value;
+  const taskPriority = taskForm.querySelector("#task-priority").value;
+  const currentProject = storedProjects.getProject(
+    document.querySelector(".project-title").textContent
+  );
+  storedProjects.addTaskToProjectSubsection(
+    currentProject,
+    section,
+    taskTitle,
+    taskDescription,
+    taskDate,
+    taskPriority
+  );
+  const mainContainer = document.querySelector(".main-container");
+  renderProjectSection(mainContainer, currentProject);
 };
 
 const displayEditTaskDialogue = (task) => {
@@ -179,7 +169,7 @@ const displayEditTaskDialogue = (task) => {
   taskDescription.value = task.getDescription();
 
   const taskDate = dialog.querySelector(`#task-date-edit`);
-  taskDate.value = task.getDueDate();
+  taskDate.value = format(new Date(), "yyyy-MM-dd");
 
   const taskPriority = dialog.querySelector(`#task-priority`);
   taskPriority.value = task.getPriority();
@@ -188,27 +178,14 @@ const displayEditTaskDialogue = (task) => {
   const cancelButton = dialog.querySelector("#dialog-cancel-btn");
 
   cancelButton.addEventListener("click", () => dialog.close());
+  submitButton.addEventListener("click", () => {
+    task.setDueDate(taskDate.value);
+    task.setPriority(taskPriority.value);
+    task.setDescription(taskDescription.value);
+    renderProjectSection(_mainContainer, _project);
+    storedProjects.updateLocale();
+    dialog.close();
+  });
 
   dialog.showModal();
-};
-
-const addTaskToProjectSection = (taskForm, section) => {
-  console.log(section);
-  const taskTitle = taskForm.querySelector("#task-name").value;
-  const taskDescription = taskForm.querySelector("#task-description").value;
-  const taskDate = taskForm.querySelector("#task-date").value;
-  const taskPriority = taskForm.querySelector("#task-priority").value;
-  const currentProject = storedProjects.getProject(
-    document.querySelector(".project-title").textContent
-  );
-  console.log(currentProject);
-  currentProject.addTaskToSubsection(
-    section,
-    taskTitle,
-    taskDescription,
-    taskDate,
-    taskPriority
-  );
-  const mainContainer = document.querySelector(".main-container");
-  renderProjectSection(mainContainer, currentProject);
 };

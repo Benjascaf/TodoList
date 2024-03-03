@@ -13,10 +13,7 @@ function addTodaySection(parent) {
   const mainContainer = document.querySelector(".main-container");
   const todayHeader = createHeaderForSection("today", "Today");
   todayHeader.addEventListener("click", () =>
-    renderTodaySection(
-      mainContainer,
-      project.getSubsectionTasks("My subsection")
-    )
+    renderTodaySection(mainContainer, storedProjects.getTasksDueToday())
   );
   parent.append(todayHeader);
 }
@@ -47,8 +44,12 @@ function createHeaderForSection(section, headerTitle) {
 function addProjects(projects, parent) {
   const mainContainer = document.querySelector(".main-container");
   for (const project of projects) {
+    console.log(project.getProjectName());
     const myProject = document.createElement("li");
-    myProject.addEventListener("click", () => {
+    const header = document.createElement("h2");
+    header.textContent = project.getProjectName();
+    myProject.append(header);
+    header.addEventListener("click", () => {
       renderProjectSection(
         mainContainer,
         storedProjects.getProject(project.getProjectName())
@@ -56,9 +57,17 @@ function addProjects(projects, parent) {
     });
     myProject.classList.add("project");
     myProject.dataset.projectName = project.getProjectName();
-    const header = document.createElement("h2");
-    header.textContent = project.getProjectName();
-    myProject.append(header);
+
+    const projectTrashContainer = document.createElement("div");
+    projectTrashContainer.classList.add("trash-container");
+    const projectTrash = document.createElement("i");
+    projectTrash.classList.add("fa-solid", "fa-trash");
+    projectTrashContainer.appendChild(projectTrash);
+    projectTrashContainer.addEventListener("click", () => {
+      storedProjects.removeProject(project);
+      renderNavbar(storedProjects.getProjects());
+    });
+    myProject.appendChild(projectTrashContainer);
     parent.append(myProject);
   }
 }

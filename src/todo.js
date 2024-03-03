@@ -1,18 +1,24 @@
-import { isToday } from "date-fns";
+import { isToday, format } from "date-fns";
 export default function Todo(title, description, dueDate, priority) {
   const _title = title;
-  const _description = description;
-  const _dueDate = dueDate;
-  const _priority = priority;
-  const setTitle = (newTitle) => {
-    _title = newTitle;
-  };
+  let _description = description;
+  let _dueDate = getDate(dueDate);
+  let _priority = priority;
+
+  function getDate(dueDate) {
+    if (dueDate instanceof Date) {
+      return dueDate;
+    } else {
+      const splitDate = dueDate.split("-");
+      return new Date(splitDate[0], splitDate[1] - 1, splitDate[2]);
+    }
+  }
   const setDescription = (newDescription) => {
     _description = newDescription;
   };
 
   const setDueDate = (newDate) => {
-    _dueDate = newDate;
+    _dueDate = getDate(newDate);
   };
   const setPriority = (newPriorityLevel) => {
     _priority = newPriorityLevel;
@@ -20,11 +26,19 @@ export default function Todo(title, description, dueDate, priority) {
 
   const getTitle = () => _title;
   const getDescription = () => _description;
-  const getDueDate = () => _dueDate;
+  const getDueDate = () => format(new Date(_dueDate), "MMMM dd");
   const getPriority = () => _priority;
   const isDueToday = () => isToday(_dueDate);
+  const toJSON = () => {
+    return {
+      title: _title,
+      description: _description,
+      date: format(_dueDate, "yyyy-MM-dd"),
+      priority: _priority,
+    };
+  };
   return {
-    setTitle,
+    toJSON,
     setDescription,
     setDueDate,
     setPriority,

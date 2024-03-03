@@ -9,27 +9,26 @@ export default function Project(name) {
   //the project or in one of the subsections
 
   const addSubsection = (newSubjection) => {
-    tasksContainers[newSubjection] = [];
+    tasksContainers[newSubjection] = {};
   };
 
-  //will have to remember the task's indexes using data attributes in the DOM
-  const addTaskToSubsection = (subsection, ...newTaskInfo) => {
-    const newTask = Todo(...newTaskInfo);
+  const addTaskToSubsection = (subsection, newTaskInfo) => {
+    const newTask = Todo(
+      newTaskInfo[0],
+      newTaskInfo[1],
+      newTaskInfo[2],
+      newTaskInfo[3]
+    );
     tasksContainers[subsection][newTask.getTitle()] = newTask;
   };
 
   const removeTaskFromSubsection = (subsection, taskName) => {
-    if (taskName in tasksContainers) {
+    if (taskName in tasksContainers[subsection]) {
       delete tasksContainers[subsection][taskName];
     } else {
       alert("Attempted to remove task not found in corresponding section");
     }
   };
-
-  const containsTask = (subsection, taskName) =>
-    tasksContainers[subsection].find((task) => {
-      task.getTitle === taskName;
-    });
 
   const getSubsectionTasks = (subsection) =>
     Object.values(tasksContainers[subsection]);
@@ -38,21 +37,32 @@ export default function Project(name) {
     const tasksInSectionDueToday = [];
     for (let task in tasksContainers[subsection]) {
       if (tasksContainers[subsection][task].isDueToday()) {
-        tasksInSectionDueToday.concat(tasksContainers[subsection][task]);
+        tasksInSectionDueToday.push(tasksContainers[subsection][task]);
       }
     }
+    return tasksInSectionDueToday;
   };
 
   const getTasksDueToday = () => {
-    const tasksDueToday = [];
+    let tasksDueToday = {};
     for (let section in tasksContainers) {
-      tasksDueToday.concat(getTodaySubsectionTasks(section));
+      tasksDueToday[section] = getTodaySubsectionTasks(section);
     }
+    return tasksDueToday;
   };
 
   const getSubsections = () => Object.keys(tasksContainers);
 
+  const toJSON = () => {
+    const sections = {};
+    for (let section of Object.keys(tasksContainers)) {
+      sections[section] = tasksContainers[section];
+    }
+    return sections;
+  };
+
   return {
+    toJSON,
     addSubsection,
     addTaskToSubsection,
     getSubsectionTasks,
